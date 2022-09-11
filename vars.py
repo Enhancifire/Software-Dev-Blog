@@ -8,3 +8,13 @@ def get_env():
         "DB_URI": DB_URI,
         "SECRET_KEY": SECRET,
     }
+
+def get_test_env():
+
+    from test import SECRET, DB_URI
+
+    return {
+        "DB_URI": DB_URI,
+        "SECRET_KEY": SECRET,
+    }
+    
