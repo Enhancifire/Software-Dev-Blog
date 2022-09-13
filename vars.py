@@ -9,7 +9,7 @@ def get_env():
         "SECRET_KEY": SECRET,
     }
 
-def get_env():
+def get_test_env():
 
     from test import SECRET, DB_URI
 
