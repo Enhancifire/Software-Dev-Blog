@@ -1,45 +1,50 @@
-from flask import Flask, redirect, render_template, request, flash
+from flask import Flask, redirect, render_template, request, flash, url_for
 from vars import get_test_env
-from pymongo import MongoClient
-from datetime import datetime
+import database as db
 
 
 app = Flask(__name__)
 
 env = get_test_env()
 app.config["SECRET_KEY"] = env["SECRET_KEY"]
-client = MongoClient(env['DB_URI'])
-posts = client.get_database("Blog").get_collection("posts")
 
 
 @app.route("/")
 def index():
-    all_posts = posts.find()
-    my_posts = all_posts
-    print(all_posts)
+    all_posts = db.get_all_posts()
     return render_template("index.html", posts=all_posts)
-    # return render_template("index.html", posts=all_posts,)
 
 
-@app.route('/about')
+@app.route("/about")
 def about():
     return render_template("about.html")
 
 
-@app.route('/featured')
+@app.route("/featured")
 def featured():
     return render_template("index.html")
 
 
-@app.route('/deepdive')
+@app.route("/deepdive")
 def deepdive():
-    return render_template("index.html")
+    posts = db.get_categorical_posts("Deep Dives")
+    return render_template("index.html", posts=posts)
 
 
-@app.route('/{id}')
-def post(id):
-    post = posts.find_one({"_id": id})
-    return render_template("post.html", post=post,)
+@app.route("/<post_id>")
+def post(post_id):
+    post = db.get_post(post_id)
+    return render_template(
+        "post.html",
+        post=post,
+    )
+
+
+@app.route("/category/<cat>")
+def get_categorical_posts(cat):
+    posts = db.get_categorical_posts(cat)
+
+    return render_template("index.html", posts=posts)
 
 
 if __name__ == "__main__":

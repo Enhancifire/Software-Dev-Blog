@@ -39,25 +39,25 @@
       <div class="post">
         <div class="image">
           <img
-            src="{{ post.image_url }}"
+            src="{{ post['image_url'] }}"
             alt=""
             height="200px"
             width="200px"
           />
         </div>
         <div class="post-body">
+	  <a href="{{ url_for('post', post_id=post['_id'])}}">
           <div class="post-title">{{ post["title"] }}</div>
           <div class="post-date">{{ post["date"] }}</div>
           <div class="post-desc">
             {{ post["desc"] }}
           </div>
+	  </a>
           <div class="post-tags">
             <!-- Fetch and iterate over post tags here -->
             {% for tag in post["categories"] %}
-            <div class="tags">{{ tag }}</div>
+	    <div class="tags"><a href="{{ url_for('get_categorical_posts', cat=tag)}}">{{ tag }}</a></div>
             {% endfor %}
-            <div class="tags">python</div>
-            <div class="tags">javascript</div>
           </div>
         </div>
       </div>
