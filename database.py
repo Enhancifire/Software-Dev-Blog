@@ -1,4 +1,4 @@
-from vars import get_test_env
+from vars import get_env
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import pymongo
@@ -7,7 +7,7 @@ from datetime import datetime
 
 def create_connection():
     """Creates connection to the database"""
-    env = get_test_env()
+    env = get_env()
     client = MongoClient(env["DB_URI"])
 
     posts = client.get_database("Blog").get_collection("posts")

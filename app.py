@@ -1,11 +1,11 @@
 from flask import Flask, redirect, render_template, request, flash, url_for
-from vars import get_test_env
+from vars import get_env
 import database as db
 
 
 app = Flask(__name__)
 
-env = get_test_env()
+env = get_env()
 app.config["SECRET_KEY"] = env["SECRET_KEY"]
 
 
