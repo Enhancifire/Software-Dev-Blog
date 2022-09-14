@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'index.css') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="./index.js"></script>
+    <script src="{{ url_for('static', filename = 'index.js') }}"></script>
 
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
@@ -34,103 +34,35 @@
 
     <div class="body">
       <!-- Fetch and Iterate over posts here -->
+      {% for post in posts %}
       <!-- Template for post -->
       <div class="post">
         <div class="image">
           <img
-            src="https://images.unsplash.com/photo-1588601515608-6a6814976b50?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8Y29tcHV0ZXIlMjBzY3JlZW58ZW58MHx8MHx8&auto=format&fit=crop&w=600&q=60"
+            src="{{ post['image_url'] }}"
             alt=""
             height="200px"
             width="200px"
           />
         </div>
         <div class="post-body">
-          <div class="post-title">How to convert Images to PDF's</div>
-          <div class="post-date">16 August,2021</div>
+	  <a href="{{ url_for('post', post_id=post['_id'])}}">
+          <div class="post-title">{{ post["title"] }}</div>
+          <div class="post-date">{{ post["date"] }}</div>
           <div class="post-desc">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel ipsam,
-            labore, fuga minima, a quod consequuntur. Voluptatibus iure expedita
-            consequuntur reiciendis! Molestiae?
+            {{ post["desc"] }}
           </div>
+	  </a>
           <div class="post-tags">
             <!-- Fetch and iterate over post tags here -->
-            <div class="tags">python</div>
-            <div class="tags">javascript</div>
+            {% for tag in post["categories"] %}
+	    <div class="tags"><a href="{{ url_for('get_categorical_posts', cat=tag)}}">{{ tag }}</a></div>
+            {% endfor %}
           </div>
         </div>
       </div>
-      <div class="post">
-        <div class="image">
-          <img
-            src="https://images.unsplash.com/photo-1588601515608-6a6814976b50?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8Y29tcHV0ZXIlMjBzY3JlZW58ZW58MHx8MHx8&auto=format&fit=crop&w=600&q=60"
-            alt=""
-            height="200px"
-            width="200px"
-          />
-        </div>
-        <div class="post-body">
-          <div class="post-title">How to convert Images to PDF's</div>
-          <div class="post-date">16 August,2021</div>
-          <div class="post-desc">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel ipsam,
-            labore, fuga minima, a quod consequuntur. Voluptatibus iure expedita
-            consequuntur reiciendis! Molestiae?
-          </div>
-          <div class="post-tags">
-            <!-- Fetch and iterate over post tags here -->
-            <div class="tags">python</div>
-            <div class="tags">javascript</div>
-          </div>
-        </div>
-      </div>
-      <div class="post">
-        <div class="image">
-          <img
-            src="https://images.unsplash.com/photo-1588601515608-6a6814976b50?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8Y29tcHV0ZXIlMjBzY3JlZW58ZW58MHx8MHx8&auto=format&fit=crop&w=600&q=60"
-            alt=""
-            height="200px"
-            width="200px"
-          />
-        </div>
-        <div class="post-body">
-          <div class="post-title">How to convert Images to PDF's</div>
-          <div class="post-date">16 August,2021</div>
-          <div class="post-desc">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel ipsam,
-            labore, fuga minima, a quod consequuntur. Voluptatibus iure expedita
-            consequuntur reiciendis! Molestiae?
-          </div>
-          <div class="post-tags">
-            <!-- Fetch and iterate over post tags here -->
-            <div class="tags">python</div>
-            <div class="tags">javascript</div>
-          </div>
-        </div>
-      </div>
-      <div class="post">
-        <div class="image">
-          <img
-            src="https://images.unsplash.com/photo-1588601515608-6a6814976b50?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8Y29tcHV0ZXIlMjBzY3JlZW58ZW58MHx8MHx8&auto=format&fit=crop&w=600&q=60"
-            alt=""
-            height="200px"
-            width="200px"
-          />
-        </div>
-        <div class="post-body">
-          <div class="post-title">How to convert Images to PDF's</div>
-          <div class="post-date">16 August,2021</div>
-          <div class="post-desc">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel ipsam,
-            labore, fuga minima, a quod consequuntur. Voluptatibus iure expedita
-            consequuntur reiciendis! Molestiae?
-          </div>
-          <div class="post-tags">
-            <!-- Fetch and iterate over post tags here -->
-            <div class="tags">python</div>
-            <div class="tags">javascript</div>
-          </div>
-        </div>
-      </div>
+      {% endfor %}
+
     </div>
     <footer>Connect with the author</footer>
     <script>
